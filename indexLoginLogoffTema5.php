@@ -19,7 +19,7 @@
                     <h1>Óscar Pozuelo Villamandos</h1>
                 </div>
                 <div class="curso-badge" style="background-color: #777BB4; color: white;">
-                    Tema 4
+                    Tema 5
                 </div>
             </div>
         </header>
