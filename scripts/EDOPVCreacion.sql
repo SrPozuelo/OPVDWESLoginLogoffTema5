@@ -1,0 +1,17 @@
+/**
+ * Autor: Óscar Pozuelo
+ * Createdo el 16 de marzo del 2026
+ * Script de creación de tablas y usuarios.
+ */
+create database if not exists DBOPVDWESProyectoTema4;
+create table if not exists DBOPVDWESProyectoTema4.T02_Departamento(
+    T02_CodDepartamento varchar(3) primary key,
+    T02_DescDepartamento varchar(255),
+    T02_FechaCreacionDepartamento datetime not null,
+    T02_VolumenDeNegocio float null,
+    T02_FechaBajaDepartamento datetime null
+)engine=innodb;
+create user if not exists 'userOPVDWESProyectoTema4'@'%' identified by '5813Libro-Puro';
+-- create user if not exists 'userOPVDWESProyectoTema4'@'%' identified by 'paso';
+grant all privileges on *.* to 'userOPVDWESProyectoTema4'@'%' with grant option;
+flush privileges;

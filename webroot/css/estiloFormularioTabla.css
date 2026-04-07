@@ -1,0 +1,130 @@
+/* === ESTILOS ESPECÍFICOS PARA FORMULARIOS Y TABLAS === */
+
+/* --- Estilos del Formulario --- */
+
+form {
+    max-width: 600px; 
+    margin: 40px auto;
+    border: 1px solid #e0e0e0;
+    padding: 25px;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+form h2 {
+    text-align: center;
+    color: green;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block; 
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Importante para que el padding no afecte el ancho total */
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"].obligatorio {
+    background-color: lightgoldenrodyellow;
+}
+
+input[type="text"]:focus {
+    border-color: green;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0,128,0,0.2);
+}
+
+input[readonly] {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+/* Estilo unificado para botones */
+.boton, input[type="submit"] {
+    padding: 12px 25px;
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none; /* Para los enlaces <a> */
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.boton:hover, input[type="submit"]:hover {
+    background-color: #006400; /* Un verde más oscuro */
+}
+
+.boton.cancelar {
+    background-color: #6c757d; /* Gris para acciones secundarias */
+}
+.boton.cancelar:hover{
+    background-color: #5a6268;
+}
+
+/* --- Estilos de la Tabla --- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #d6eaf8;
+    cursor: pointer;
+}

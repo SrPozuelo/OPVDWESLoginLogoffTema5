@@ -1,0 +1,114 @@
+
+.contenedor-tabla {
+    /* overflow-x: auto; */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom:2dvh;
+}
+
+.tabla-ejercicios {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+}
+
+/* --- CABECERA DE LA TABLA --- */
+.tabla-ejercicios thead th {
+    background-color: var(--color-principal, #1e5631);
+    color: white;
+    text-align: left;
+    padding: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.tabla-ejercicios thead th.col-centro {
+    text-align: center;
+    width: 80px;
+}
+
+/* --- CUERPO DE LA TABLA --- */
+.tabla-ejercicios tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #444;
+    vertical-align: middle;
+}
+
+.tabla-ejercicios tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.tabla-ejercicios tbody tr:hover {
+    background-color: #e8f5e9; 
+    transform: scale(1.005); 
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    z-index: 1;
+    position: relative;
+}
+
+/* --- COLUMNA NÚMERO --- */
+.col-num {
+    font-weight: 700;
+    color: var(--color-principal, #1e5631);
+    width: 50px;
+    text-align: center;
+}
+
+/* --- BOTONES DE ACCIÓN (PLAY Y CÓDIGO) --- */
+.btn-accion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0 auto;
+}
+
+/* Botón Ejecutar (Play) */
+.btn-play,.btn-play-anulado{
+    background-color: rgba(30, 86, 49, 0.1);
+    color: #1e5631;
+}
+
+.btn-play:hover {
+    background-color: #1e5631;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-play-anulado:hover{
+    background-color: rgba(30, 86, 49, 0.1);
+    color: #1e5631;
+    transform:scale(1.0);
+}
+/* Botón Código (Code) */
+.btn-code, .btn-code-anulado{
+    background-color: rgba(119, 123, 180, 0.1);
+    color: #777BB4;
+}
+
+.btn-code:hover {
+    background-color: #777BB4;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-code-anulado:hover{
+    background-color: rgba(119, 123, 180, 0.1);
+    color: #777BB4;
+    transform:scale(1.0);
+}
+
+.btn-accion i {
+    font-size: 1rem;
+}
+
