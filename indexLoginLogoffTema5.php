@@ -4,12 +4,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tema 5 | Óscar Pozuelo Villamandos</title>
-        <link rel="stylesheet" href="../webroot/css/fonts.css">
-        <link rel="stylesheet" href="../webroot/css/all.min.css">
-        <link rel="stylesheet" href="webroot/css/estilos.css"> 
-        <link rel="stylesheet" href="webroot/css/estilosTabla.css"> 
+        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/fonts.css">
+        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/all.min.css">
+        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/estilos.css"> 
+        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/estilosTabla.css"> 
     </head>
     <body>
+        <?php
+            $textoBotonIniciarSesion = 'INICIAR SESIÓN';
+            if (isset($_REQUEST['iniciarSesion'])) {
+                header('Location: codigoPHP/login.php');
+                exit;
+            }
+        ?>
         <header class="cabecera-principal">
             <div class="contenido-cabecera">
                 <div class="identidad">
@@ -21,6 +28,9 @@
                 <div class="curso-badge" style="background-color: #777BB4; color: white;">
                     Tema 5
                 </div>
+                <form action="" method="post">
+                    <button name="iniciarSesion"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
+                </form>
             </div>
         </header>
         <main class="contenedor-principal">  
