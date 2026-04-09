@@ -45,7 +45,7 @@
                 //Código que se ejecuta antes de rellenar el formulario.
                 $entradaOK=false;
             }
-            //Tratamiento del formulario.
+            //Se comprueba el que el nombre del usuario y la contraseña sean introducidos correctamente.
             if($entradaOK){
                 //Se Carga la variable $aRespuestas y tratamiento de datos OK.
                 try {
@@ -73,8 +73,8 @@
                             'NumConexiones'                   => $usuarioBD->T01_NumConexiones+1,
                             'Perfil'                          => $usuarioBD->T01_Perfil
                         ];
-                        //Se actualiza la fecha de última session y el contador de conexiones.
-                        $actualizacion = <<<SQL
+                        //Se actualiza la fecha de la última session y el contador de conexiones.
+                        $actualizacion=<<<SQL
                             UPDATE T01_Usuario SET
                             T01_FechaHoraUltimaConexion = now(),
                             T01_NumConexiones = T01_NumConexiones + 1
@@ -84,10 +84,10 @@
                         $consulta2->execute([':CodUsuario' => $_REQUEST['CodUsuario']]);
                         //Se Avanza a la página de inicio privado.
                         header('Location: inicioPrivado.php');
-                        exit;
-                        //Si el usuario NO es válido vuelve a cargar el login.
+                        exit; 
                     }
                     else{
+                        //Si el usuario NO es válido se vuelve a cargar el login con los errores.
                         if(empty($aErrores['CodUsuario']) and empty($aErrores['Password'])){
                             $aErrores['CodUsuario']="El nombre de usuario o la contrasena estan mal introducidos.";
                             $aErrores['Password']="El nombre de usuario o la contrasena estan mal introducidos.";
@@ -96,7 +96,8 @@
                 }
                 catch (PDOException $miExceptionPDO) {
                     //Temporalmente ponemos estos errores para que se muestren en pantalla.
-                    echo 'Error: '.$miExceptionPDO->getMessage().'con código de error: '.$miExceptionPDO->getCode();
+                    echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
+                    echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
                 }
                 finally {
                     unset($miDB);

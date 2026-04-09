@@ -1,7 +1,7 @@
 <?php
-    $textoBotonIniciarSesion = 'INICIAR SESIÓN';
+    $textoBotonIniciarSesion = 'CERRAR SESIÓN';
     if (isset($_REQUEST['iniciarSesion'])) {
-        header('Location: codigoPHP/login.php');
+        header('Location: ../indexLoginLogoffTema5.php');
         exit;
     }
 ?>
