@@ -11,7 +11,7 @@
     </head>
     <body>
         <?php
-            $textoBotonIniciarSesion = 'VOLVER';
+            $textoBotonCancelar = 'VOLVER';
             if (isset($_REQUEST['iniciarSesion'])) {
                 header('Location: ../indexLoginLogoffTema5.php');
                 exit;
@@ -29,7 +29,7 @@
                     Tema 5
                 </div>
                 <form action="" method="post">
-                    <button name="Volver"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
+                    <button name="Volver"><span><?php echo $textoBotonCancelar; ?></span></button>
                 </form>
             </div>
         </header>
@@ -42,7 +42,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="cod">Código:</label>
+                            <label for="cod">Nombre:</label>
                         </td>
                         <td>
                             <input type="text" name="CodDepartamento" class="texto obligatorio" id="CodDepartamento" value="<?php echo(isset($_REQUEST["CodDepartamento"])&&empty($aErrores["CodDepartamento"]))?$_REQUEST["CodDepartamento"]:''?>">
@@ -53,35 +53,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="desc">Descripción:</label>
+                            <label for="desc">Contraseña:</label>
                         </td>
                         <td>
                             <input type="text" name="DescDepartamento" class="texto obligatorio" id="DescDepartamento" value="<?php echo(isset($_REQUEST["DescDepartamento"])&&empty($aErrores["DescDepartamento"]))?$_REQUEST["DescDepartamento"]:''?>">
                         </td>
                         <td class="span">
                             <span><?php echo $aErrores['DescDepartamento']?></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="crea">Fecha de creación:</label>
-                        </td>
-                        <td>
-                            <input type="text" name="FechaCreacionDepartamento" class="fecha bloqueado" id="FechaCreacionDepartamento" value="<?php echo(new DateTime())->format('d-m-Y');?>" readonly>
-                        </td>
-                        <td class="span">
-                            <span><?php echo $aErrores['FechaCreacionDepartamento']?></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="Vol">Volumen de negocio:</label>
-                        </td>
-                        <td>
-                            <input type="text" name="VolumenDeNegocio" class="texto obligatorio" id="VolumenDeNegocio" value="<?php echo(isset($_REQUEST["VolumenDeNegocio"])&&empty($aErrores["VolumenDeNegocio"]))?$_REQUEST["VolumenDeNegocio"]:''?>">
-                        </td>
-                        <td class="span">
-                            <span><?php echo $aErrores['VolumenDeNegocio']?></span>
                         </td>
                     </tr>
                     <tr>
