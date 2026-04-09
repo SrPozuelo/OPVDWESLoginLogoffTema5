@@ -17,7 +17,7 @@
     </head>
     <body>
         <?php
-            require_once '../conf/confDBPDO.php';
+            require_once '../conf/ConfDBPDO.php';
             require_once "../core/libreriaValidacion.php";
             $textoBotonVolver='VOLVER';
             $aErrores=[
@@ -28,7 +28,8 @@
                 "CodUsuario"=>'',
                 "Password"  =>''
             ];
-            if (isset($_REQUEST["entrar"])){
+            $entradaOK=true;
+            if(isset($_REQUEST["Enviar"])){
                 //Código que se ejecuta cuando se envía el formulario.
                 //Se valida los datos del formulario.
                 $aErrores['CodUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['CodUsuario'],10,0,1);
@@ -55,7 +56,7 @@
                     $consulta = $miDB->prepare($sql);
                     $consulta->execute([
                         ':CodUsuario' => $_REQUEST['CodUsuario'],
-                        ':Password' => $_REQUEST['usuario'].$_REQUEST['Password']
+                        ':Password'   => $_REQUEST['CodUsuario'].$_REQUEST['Password']
                     ]);
                     //Si encuentra una fila, las credenciales son correctas.
                     $usuarioBD=$consulta->fetchObject();
@@ -86,13 +87,15 @@
                         exit;
                         //Si el usuario NO es válido vuelve a cargar el login.
                     }
-                    else {
-                        header('Location: login.php');
-                        exit;
+                    else{
+                        if(empty($aErrores['CodUsuario']) and empty($aErrores['Password'])){
+                            $aErrores['CodUsuario']="El nombre de usuario o la contrasena estan mal introducidos.";
+                            $aErrores['Password']="El nombre de usuario o la contrasena estan mal introducidos.";
+                        }
                     }
                 }
                 catch (PDOException $miExceptionPDO) {
-                    //Temporalmente ponemos estos errores para que se muestren en pantalla
+                    //Temporalmente ponemos estos errores para que se muestren en pantalla.
                     echo 'Error: '.$miExceptionPDO->getMessage().'con código de error: '.$miExceptionPDO->getCode();
                 }
                 finally {
@@ -139,7 +142,7 @@
                             <label for="desc">Contraseña:</label>
                         </td>
                         <td>
-                            <input type="text" name="Password" class="texto obligatorio" id="Password" value="<?php echo(isset($_REQUEST["Password"])&&empty($aErrores["Password"]))?$_REQUEST["Password"]:''?>">
+                            <input type="password" name="Password" class="texto obligatorio" id="Password" value="<?php echo(isset($_REQUEST["Password"])&&empty($aErrores["Password"]))?$_REQUEST["Password"]:''?>">
                         </td>
                         <td class="span">
                             <span><?php echo $aErrores['Password']?></span>
