@@ -1,3 +1,9 @@
+<?php
+    if (isset($_REQUEST['Volver'])) {
+        header('Location: ../indexLoginLogoffTema5.php');
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -11,10 +17,87 @@
     </head>
     <body>
         <?php
-            $textoBotonCancelar = 'VOLVER';
-            if (isset($_REQUEST['iniciarSesion'])) {
-                header('Location: ../indexLoginLogoffTema5.php');
-                exit;
+            require_once '../conf/confDBPDO.php';
+            require_once "../core/libreriaValidacion.php";
+            $textoBotonVolver='VOLVER';
+            $aErrores=[
+                "CodUsuario"=>'',
+                "Password"  =>''
+            ];
+            $aRespuestas=[
+                "CodUsuario"=>'',
+                "Password"  =>''
+            ];
+            if (isset($_REQUEST["entrar"])){
+                //Código que se ejecuta cuando se envía el formulario.
+                //Se valida los datos del formulario.
+                $aErrores['CodUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['CodUsuario'],10,0,1);
+                $aErrores['Password'] =validacionFormularios::validarPassword($_REQUEST['Password'],64,4,2,1);
+                foreach($aErrores as $campo => $valor){
+                    if(!empty($valor)){
+                        //Se comprueba si el valor es válido.
+                        $entradaOK=false;
+                    } 
+                }
+            }
+            else{
+                //Código que se ejecuta antes de rellenar el formulario.
+                $entradaOK=false;
+            }
+            //Tratamiento del formulario.
+            if($entradaOK){
+                //Se Carga la variable $aRespuestas y tratamiento de datos OK.
+                try {
+                    //Se conecta a la base de datos.
+                    $miDB=new PDO(DSN,USERNAME,PASSWORD);
+                    //Consulta preparada:Busca un usuario y contraseña coincidentes.
+                    $sql="SELECT * FROM T01_Usuario WHERE T01_CodUsuario = :CodUsuario AND T01_Password = sha2(:Password,256)";
+                    $consulta = $miDB->prepare($sql);
+                    $consulta->execute([
+                        ':CodUsuario' => $_REQUEST['CodUsuario'],
+                        ':Password' => $_REQUEST['usuario'].$_REQUEST['Password']
+                    ]);
+                    //Si encuentra una fila, las credenciales son correctas.
+                    $usuarioBD=$consulta->fetchObject();
+                    if($usuarioBD){
+                        $oFechaActual=new DateTime();
+                        //Sino se inicia la session y guardamos datos de sesión.
+                        session_start();
+                        $_SESSION['usuarioDAW205AppLoginLogoffTema5']=[
+                            'CodUsuario'                      => $usuarioBD->T01_CodUsuario,
+                            'Password'                        => $usuarioBD->T01_Password,
+                            'DescUsuario'                     => $usuarioBD->T01_DescUsuario,
+                            'FechaHoraUltimaConexionAnterior' => $usuarioBD->T01_FechaHoraUltimaConexion,
+                            'FechaHoraUltimaConexion'         => $oFechaActual->format('Y-m-d H:i:s'),
+                            'NumConexiones'                   => $usuarioBD->T01_NumConexiones+1,
+                            'Perfil'                          => $usuarioBD->T01_Perfil
+                        ];
+                        //Se actualiza la fecha de última session y el contador de conexiones.
+                        $actualizacion = <<<SQL
+                            UPDATE T01_Usuario SET
+                            T01_FechaHoraUltimaConexion = now(),
+                            T01_NumConexiones = T01_NumConexiones + 1
+                            WHERE T01_CodUsuario = :CodUsuario
+                        SQL;
+                        $consulta2 = $miDB->prepare($actualizacion);
+                        $consulta2->execute([':CodUsuario' => $_REQUEST['CodUsuario']]);
+                        //Se Avanza a la página de inicio privado.
+                        header('Location: inicioPrivado.php');
+                        exit;
+                        //Si el usuario NO es válido vuelve a cargar el login.
+                    }
+                    else {
+                        header('Location: login.php');
+                        exit;
+                    }
+                }
+                catch (PDOException $miExceptionPDO) {
+                    //Temporalmente ponemos estos errores para que se muestren en pantalla
+                    echo 'Error: '.$miExceptionPDO->getMessage().'con código de error: '.$miExceptionPDO->getCode();
+                }
+                finally {
+                    unset($miDB);
+                }
             }
         ?>
         <header class="cabecera-principal">
@@ -29,26 +112,26 @@
                     Tema 5
                 </div>
                 <form action="" method="post">
-                    <button name="Volver"><span><?php echo $textoBotonCancelar; ?></span></button>
+                    
                 </form>
             </div>
         </header>
-        <main class="contenedor-principal">  
+        <main id="contenedor">  
             <h2 class="titulo-pagina">Login</h2>
             <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                 <table class="formulario conErrores">
                     <tr>
-                        <td colspan="3"><h3>Crear nuevo departamento:</h3></td>
+                        <td colspan="3"><h3>Iniciar sesion:</h3></td>
                     </tr>
                     <tr>
                         <td>
                             <label for="cod">Nombre:</label>
                         </td>
                         <td>
-                            <input type="text" name="CodDepartamento" class="texto obligatorio" id="CodDepartamento" value="<?php echo(isset($_REQUEST["CodDepartamento"])&&empty($aErrores["CodDepartamento"]))?$_REQUEST["CodDepartamento"]:''?>">
+                            <input type="text" name="CodUsuario" class="texto obligatorio" id="CodUsuario" value="<?php echo(isset($_REQUEST["CodUsuario"])&&empty($aErrores["CodUsuario"]))?$_REQUEST["CodUsuario"]:''?>">
                         </td>
                         <td class="span">
-                            <span><?php echo $aErrores['CodDepartamento']?></span>
+                            <span><?php echo $aErrores['CodUsuario']?></span>
                         </td>
                     </tr>
                     <tr>
@@ -56,15 +139,16 @@
                             <label for="desc">Contraseña:</label>
                         </td>
                         <td>
-                            <input type="text" name="DescDepartamento" class="texto obligatorio" id="DescDepartamento" value="<?php echo(isset($_REQUEST["DescDepartamento"])&&empty($aErrores["DescDepartamento"]))?$_REQUEST["DescDepartamento"]:''?>">
+                            <input type="text" name="Password" class="texto obligatorio" id="Password" value="<?php echo(isset($_REQUEST["Password"])&&empty($aErrores["Password"]))?$_REQUEST["Password"]:''?>">
                         </td>
                         <td class="span">
-                            <span><?php echo $aErrores['DescDepartamento']?></span>
+                            <span><?php echo $aErrores['Password']?></span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3" id="Env">
                             <button type="submit" id="Enviar" name="Enviar">ENVIAR</button>
+                            <button name="Volver" id="Volver"><?php echo $textoBotonVolver; ?></button>
                         </td>
                     </tr>
                 </table>

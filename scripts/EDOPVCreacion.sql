@@ -12,7 +12,7 @@ create table if not exists DBOPVDWESLoginLogoffTema5.T01_Usuario(
     T01_FechaHoraUltimaConexion datetime default null,
     T01_Perfil varchar (100) not null default 'usuario',
     T01_ImagenUsuario BLOB default null
-)engine==innodb;
+)engine=innodb;
 create table if not exists DBOPVDWESLoginLogoffTema5.T02_Departamento(
     T02_CodDepartamento varchar(3) primary key,
     T02_DescDepartamento varchar(255),
