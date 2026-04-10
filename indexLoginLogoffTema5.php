@@ -26,15 +26,16 @@
                     <h1>Óscar Pozuelo Villamandos</h1>
                 </div>
                 <div class="curso-badge" style="background-color: #777BB4; color: white;">
-                    Tema 5
+                    Login Logoff Tema 5
                 </div>
-                <form action="" method="post">
-                    <button name="iniciarSesion"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
+                <form action="" method="post" id="FormularioSesion">
+                    <button name="iniciarSesion" id="Sesion"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
                 </form>
             </div>
         </header>
-        <main class="contenedor-principal">  
-            <h2 class="titulo-pagina">Login Logoff Tema5</h2>
+        <main id="contenedor">  
+            <h2 id="titulo">Login Logoff Tema5</h2>
+            <img src="/OPVDWESLoginLogoffTema5/webroot/images/Arbol.png" alt="Arbol del proyecto Login Logoff Tema5" id="Arbol">
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">

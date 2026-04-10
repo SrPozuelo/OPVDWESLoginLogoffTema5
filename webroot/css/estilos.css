@@ -15,6 +15,31 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x:hidden;
+    & #FormularioSesion{
+        position:absolute;
+        top:1.2dvh;
+        left:90%;
+        & #Sesion{
+            width:150px;
+            height:4dvh;
+            background-color:blue;
+            color:white;
+            border:1px solid black;
+            border-radius:10px;
+        }
+        & #Sesion:hover{
+           cursor:pointer;
+           transform:scale(1.005);
+        }
+    }
+    & #Boton{
+        width:150px;
+        height:4dvh;
+        background-color:blue;
+        color:white;
+        border:1px solid black;
+        border-radius:10px;
+    }
     & #contenedorMostrar{
         & #titulo{
             display:grid;
@@ -59,11 +84,19 @@ body {
     & #contenedor{
         & #titulo{
             display:grid;
+            position:absolute;
             width:100dvw;
             height:5vh;
+            top:10dvh;
             place-content:center;
             font-weight:bolder;
-            font-size:1.5rem;
+            font-size:3rem;
+        }
+        & #Arbol{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
         }
         & h3{
             height:3dvh;
@@ -156,11 +189,15 @@ body {
         }
         & form{
             display:grid;
+            position:absolute;
             /*width:80dvw;
             height:20dvw;
             margin-top:5dvw;
             margin-left:10dvw;
             margin-bottom:10dvh;*/
+            top:30%;
+            left:50%;
+            transform:translate(-50%);
             place-content:center;
             & .sinErrores{
                 width:30dvw;

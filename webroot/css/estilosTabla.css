@@ -45,7 +45,7 @@
 
 .tabla-ejercicios tbody tr:hover {
     background-color: #e8f5e9; 
-    transform: scale(1.005); 
+    transform: scale(1.005);
     transition: all 0.2s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     z-index: 1;

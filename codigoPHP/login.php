@@ -113,15 +113,12 @@
                     <h1>Óscar Pozuelo Villamandos</h1>
                 </div>
                 <div class="curso-badge" style="background-color: #777BB4; color: white;">
-                    Tema 5
+                    Login Logoff Tema 5
                 </div>
-                <form action="" method="post">
-                    
-                </form>
             </div>
         </header>
         <main id="contenedor">  
-            <h2 class="titulo-pagina">Login</h2>
+            <h2 id="titulo">Login</h2>
             <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                 <table class="formulario conErrores">
                     <tr>

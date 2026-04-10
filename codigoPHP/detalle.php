@@ -1,11 +1,7 @@
 <?php
-    $textoBotonCerrarSesion = 'CERRAR SESIÓN';
-    if (isset($_REQUEST['cerrarSesion'])) {
-        header('Location: ../indexLoginLogoffTema5.php');
-        exit;
-    }
-    if(isset($_REQUEST['Detalles'])){
-        header('Location: detalle.php');
+    $textoBotonVolver='VOLVER';
+    if (isset($_REQUEST['Volver'])) {
+        header('Location: inicioPrivado.php');
         exit;
     }
 ?>
@@ -33,15 +29,15 @@
                     Login Logoff Tema 5
                 </div>
                 <form action="" method="post" id="FormularioSesion">
-                    <button name="cerrarSesion" id="Sesion"><span><?php echo $textoBotonCerrarSesion; ?></span></button>
+                    <button name="Volver" id="Sesion"><span><?php echo $textoBotonVolver;?></span></button>
                 </form>
             </div>
         </header>
         <main id="contenedor">  
-            <h2 id="titulo">INICIO PRIVADO</h2>
-            <form action="" method="post">
-                <button name="Detalles" id="Boton"><span>DETALLES</span></button>
-            </form>
+            <h2 id="titulo">DETALLES:</h2>
+            <?php
+                
+            ?>
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">
