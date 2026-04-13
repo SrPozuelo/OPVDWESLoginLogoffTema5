@@ -135,11 +135,13 @@ body {
             margin-left:40%;
         }
         & .TablaPHP{
+            position:relative;
             width:80dvw;
             border-collapse:collapse;
             border:1px solid black;
-            margin-left:10dvw;
             margin-bottom:5dvh;
+            left:50dvw;
+            transform:translate(0%,-50%);
             & thead{
                 background-color:#777BB4;
                 & tr th{
@@ -147,7 +149,7 @@ body {
                     border:1px solid black;
                     padding-top:1dvh;
                     padding-bottom:1dvh;
-                    font-size:1.5rem;
+                    font-size:1.2rem;
                 }
             }
             & tbody{
@@ -156,7 +158,7 @@ body {
                     padding-left:6dvw;
                     padding-top:1dvh;
                     padding-bottom:1dvh;
-                    font-size:1.5rem;
+                    font-size:1.2rem;
                 }
                 & .centrado{
                     text-align:center;
