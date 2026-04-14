@@ -85,6 +85,12 @@ body {
         display:flex;
         flex-direction:column;
         margin-top:15dvh;
+        & #Detalles{
+            position:absolute;
+            top:42dvh;
+            left:50%;
+            transform:translate(0%,-50%);
+        }
         & #titulo{
             display:grid;
             position:absolute;

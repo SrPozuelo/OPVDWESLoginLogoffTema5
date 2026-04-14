@@ -3,6 +3,7 @@
     $textoBotonCerrarSesion = 'CERRAR SESIÓN';
     if (isset($_REQUEST['cerrarSesion'])) {
         header('Location: ../indexLoginLogoffTema5.php');
+        session_destroy();
         exit;
     }
     if(isset($_REQUEST['Detalles'])){
@@ -40,13 +41,19 @@
         </header>
         <main id="contenedor">  
             <h2 id="titulo">INICIO PRIVADO</h2>
-            <form action="" method="post">
+            <form action="" method="post" id="Detalles">
                 <button name="Detalles" id="Boton"><span>DETALLES</span></button>
             </form>
             <?php
-                echo('<h3>Bienvenido'.$_SESSION[usuarioDAW210AppLoginLogoffTema5][DescUsuario].'</h3>');
-                if($_SESSION[usuarioDAW205AppLoginLogoffTema5][NumConexiones]==1){
+                $aUsuarioActual=$_SESSION['usuarioDAW210AppLoginLogoffTema5'];
+                $oFechaHoraUltimaConexionAnterior=new datetime($aUsuarioActual['FechaHoraUltimaConexionAnterior']);
+                echo("<h3>Bienvenido ".$aUsuarioActual['DescUsuario'].".</h3>");
+                if($aUsuarioActual['NumConexiones']==1){
                     echo('<h3>Esta es la primera vez que se conecta.</h3>');
+                }
+                else{
+                    echo("<h3>Esta es la ".$aUsuarioActual['NumConexiones']." vez que se conecta.</h3>");
+                    echo("<h3>Se conecto por ultima vez el ".strftime("%d del %m del %Y a las %H:%M:%S",($oFechaHoraUltimaConexionAnterior)->getTimestamp()).".</h3>");
                 }
             ?>
         </main>

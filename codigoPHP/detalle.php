@@ -54,7 +54,13 @@
                                     echo('<td>$_SESSION['.$sVariable.']</td>');
                                     echo('<td>');
                                         foreach($sResultado AS $sVar => $sResul){
-                                            echo($sVar.'=>'.$sResul.'<br>');
+                                            if($sVar=='FechaHoraUltimaConexionAnterior' OR $sVar=='FechaHoraUltimaConexion'){
+                                                $oFecha=new DateTime($sResul);
+                                                echo($sVar.' => '.$oFecha->format("d-m-Y H:i:s").'<br>');
+                                            }
+                                            else{
+                                                echo($sVar.' => '.$sResul.'<br>');
+                                            }
                                         }
                                     echo('</td>');
                                 echo("</tr>");
