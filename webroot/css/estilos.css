@@ -82,6 +82,9 @@ body {
         }
     }
     & #contenedor{
+        display:flex;
+        flex-direction:column;
+        margin-top:15dvh;
         & #titulo{
             display:grid;
             position:absolute;
@@ -135,13 +138,11 @@ body {
             margin-left:40%;
         }
         & .TablaPHP{
-            position:relative;
             width:80dvw;
             border-collapse:collapse;
             border:1px solid black;
             margin-bottom:5dvh;
-            left:50dvw;
-            transform:translate(0%,-50%);
+            align-self:center;
             & thead{
                 background-color:#777BB4;
                 & tr th{

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $textoBotonCerrarSesion = 'CERRAR SESIÓN';
     if (isset($_REQUEST['cerrarSesion'])) {
         header('Location: ../indexLoginLogoffTema5.php');
@@ -42,6 +43,12 @@
             <form action="" method="post">
                 <button name="Detalles" id="Boton"><span>DETALLES</span></button>
             </form>
+            <?php
+                echo('<h3>Bienvenido'.$_SESSION[usuarioDAW210AppLoginLogoffTema5][DescUsuario].'</h3>');
+                if($_SESSION[usuarioDAW205AppLoginLogoffTema5][NumConexiones]==1){
+                    echo('<h3>Esta es la primera vez que se conecta.</h3>');
+                }
+            ?>
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">

@@ -64,12 +64,12 @@
                         $oFechaActual=new DateTime();
                         //Sino se inicia la session y guardamos datos de sesión.
                         session_start();
-                        $_SESSION['usuarioDAW205AppLoginLogoffTema5']=[
+                        $_SESSION['usuarioDAW210AppLoginLogoffTema5']=[
                             'CodUsuario'                      => $usuarioBD->T01_CodUsuario,
                             'Password'                        => $usuarioBD->T01_Password,
                             'DescUsuario'                     => $usuarioBD->T01_DescUsuario,
                             'FechaHoraUltimaConexionAnterior' => $usuarioBD->T01_FechaHoraUltimaConexion,
-                            'FechaHoraUltimaConexion'         => $oFechaActual->format('Y-m-d H:i:s'),
+                            'FechaHoraUltimaConexion'         => $oFechaActual->format('d-m-Y H:i:s'),
                             'NumConexiones'                   => $usuarioBD->T01_NumConexiones+1,
                             'Perfil'                          => $usuarioBD->T01_Perfil
                         ];

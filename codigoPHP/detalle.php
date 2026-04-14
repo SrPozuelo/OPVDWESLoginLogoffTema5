@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $textoBotonVolver='VOLVER';
     if (isset($_REQUEST['Volver'])) {
         header('Location: inicioPrivado.php');
@@ -35,6 +36,9 @@
         </header>
         <main id="contenedor">  
             <h2 id="titulo">DETALLES:</h2>
+            <?php
+                echo('<h4>Contenido de la variable $_SESSION:</h4>');
+            ?>
             <table class="TablaPHP">
                 <thead>
                     <tr>
@@ -47,8 +51,12 @@
                         if(!empty($_SESSION)){
                             foreach($_SESSION AS $sVariable => $sResultado){
                                 echo("<tr>");
-                                    echo('<td>$_SERVER['.$sVariable.']</td>');
-                                    echo('<td>'.$sResultado.'</td>');
+                                    echo('<td>$_SESSION['.$sVariable.']</td>');
+                                    echo('<td>');
+                                        foreach($sResultado AS $sVar => $sResul){
+                                            echo($sVar.'=>'.$sResul.'<br>');
+                                        }
+                                    echo('</td>');
                                 echo("</tr>");
                             }
                         }
