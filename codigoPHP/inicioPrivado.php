@@ -47,13 +47,17 @@
             <?php
                 $aUsuarioActual=$_SESSION['usuarioDAW210AppLoginLogoffTema5'];
                 $oFechaHoraUltimaConexionAnterior=new datetime($aUsuarioActual['FechaHoraUltimaConexionAnterior']);
+                //Se muetra el mensaje de bienvenida.
                 echo("<h3>Bienvenido ".$aUsuarioActual['DescUsuario'].".</h3>");
                 if($aUsuarioActual['NumConexiones']==1){
+                    //Esto se muestra si es la primera vez que el usuario inicia sesión en la aplicación.
                     echo('<h3>Esta es la primera vez que se conecta.</h3>');
                 }
                 else{
-                    echo("<h3>Esta es la ".$aUsuarioActual['NumConexiones']." vez que se conecta.</h3>");
-                    echo("<h3>Se conecto por ultima vez el ".strftime("%d del %m del %Y a las %H:%M:%S",($oFechaHoraUltimaConexionAnterior)->getTimestamp()).".</h3>");
+                    //Esto se muestra si no es la primera vez que el usuario inicia sesión en la aplicación.
+                    setlocale(LC_TIME, 'es_ES.utf8','es_ES','spanish');
+                    echo("<h3>Esta es la ".$aUsuarioActual['NumConexiones']."º vez que se conecta.</h3>");
+                    echo("<h3>Se conecto por ultima vez el ".strftime("%d de %B del %Y a las %H:%M:%S",($oFechaHoraUltimaConexionAnterior)->getTimestamp()).".</h3>");
                 }
             ?>
         </main>

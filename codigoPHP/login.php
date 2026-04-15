@@ -61,6 +61,9 @@
                     //Si encuentra una fila, las credenciales son correctas.
                     $usuarioBD=$consulta->fetchObject();
                     if($usuarioBD){
+                        date_default_timezone_set('Europe/Madrid');
+                        setlocale(LC_TIME, 'es_ES.utf8','es_ES','spanish');
+                        
                         $oFechaActual=new DateTime();
                         //Sino se inicia la session y guardamos datos de sesión.
                         session_start();
@@ -84,7 +87,7 @@
                         $consulta2->execute([':CodUsuario' => $_REQUEST['CodUsuario']]);
                         //Se Avanza a la página de inicio privado.
                         header('Location: inicioPrivado.php');
-                        exit; 
+                        exit;
                     }
                     else{
                         //Si el usuario NO es válido se vuelve a cargar el login con los errores.
