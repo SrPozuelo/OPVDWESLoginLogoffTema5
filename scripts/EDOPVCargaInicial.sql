@@ -14,16 +14,16 @@ insert into T02_Departamento (T02_CodDepartamento,T02_DescDepartamento,T02_Fecha
 INSERT INTO T01_Usuario (T01_CodUsuario,T01_Password,T01_DescUsuario)VALUES
     ('vero',SHA2('veropaso',256),'Véro Grué'),
     ('heraclio',SHA2('heracliopaso',256),'Heraclio Borbujo'),
-    ('alvaroA',SHA2('alvaroApaso',256),'Alvaro Allen'),
+    ('alvaroA',SHA2('alvaroApaso',256),'Álvaro Allen'),
     ('alejandro',SHA2('alejandropaso',256),'Alejandro De La Huerga'),
-    ('alvaroG',SHA2('alvaroGpaso',256),'Alvaro García'),
+    ('alvaroG',SHA2('alvaroGpaso',256),'Álvaro García'),
     ('gonzalo',SHA2('gonzalopaso',256),'Gonzalo Junquera'),
     ('cristian',SHA2('cristianpaso',256),'Cristian Mateos'),
     ('alberto',SHA2('albertopaso',256),'Alberto Méndez'),
     ('enrique',SHA2('enriquepaso',256),'Enrique Nieto'),
     ('james',SHA2('jamespaso',256),'James Edward Nuñez'),
-    ('oscar',SHA2('oscarpaso',256),'Oscar Pozuelo'),
-    ('jesus',SHA2('jesuspaso',256),'Enrique Nieto'),
+    ('oscar',SHA2('oscarpaso',256),'Óscar Pozuelo'),
+    ('jesus',SHA2('jesuspaso',256),'Jesús Temprano'),
     ('amor',SHA2('amorpaso',256),'Amor Rodriguez'),
     ('albertoB',SHA2('albertoBpaso',256),'Alberto Bahillo')
 ;

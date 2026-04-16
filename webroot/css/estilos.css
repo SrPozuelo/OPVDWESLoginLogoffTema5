@@ -255,6 +255,15 @@ body {
                         & input{
                             font-size:1.2rem;
                         }
+                        & p{
+                            position:absolute;
+                            height:50%;
+                            left:-25%;
+                            transform:translate(0%,-50%);
+                            line-height:100%;
+                            font-size:1.3rem;
+                            font-weight:900;
+                        }
                         & .texto{
                             width:100%;
                             height:67%;
@@ -266,27 +275,28 @@ body {
                             border-radius:10px;
                             text-align:center;
                         }
-                        & #Enviar{
+                        & .BotonTabla{
                             position:absolute;
                             width:25%;
                             height:50%;
                             background-color:var(--color-principal);
                             color:white;
+                            border-radius:10px;
+                        }
+                        & #Enviar, & #Crear{
                             top:50%;
                             left:50%;
-                            border-radius:10px;
                             transform:translate(10%,-50%);
                         }
                         & #Volver{
-                            position:absolute;
-                            width:25%;
-                            height:50%;
-                            background-color:var(--color-principal);
-                            color:white;
                             top:50%;
                             left:50%;
-                            border-radius:10px;
                             transform:translate(-110%,-50%);
+                        }
+                        & #Registrarse{
+                            top:50%;
+                            left:50%;
+                            transform:translate(0%,-50%);
                         }
                     }
                     & #Env, & .span{
