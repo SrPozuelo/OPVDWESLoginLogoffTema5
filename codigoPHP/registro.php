@@ -59,8 +59,8 @@
                         unset($miDB);
                     }
                 }
-                $aErrores['DescUsuario'] =validacionFormularios::comprobarAlfabetico($_REQUEST['DescUsuario'],255,4,1);
-                $aErrores['Password'] =validacionFormularios::validarPassword($_REQUEST['Password'],64,4,2,1);
+                $aErrores['DescUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['DescUsuario'],255,4,1);
+                $aErrores['Password']=validacionFormularios::validarPassword($_REQUEST['Password'],64,4,2,1);
                 $aErrores['ConfirmarPassword']=validacionFormularios::validarPassword($_REQUEST['ConfirmarPassword'],64,4,2,1);
                 if($_REQUEST['Password']!==$_REQUEST['ConfirmarPassword'] AND empty($aErrores['Password'])){
                     $aErrores['ConfirmarPassword']='Debes introducir la misma contraseña.';
@@ -82,14 +82,37 @@
                 $aRespuestas['CodUsuario']=$_REQUEST['CodUsuario'];
                 $aRespuestas['DescUsuario']=$_REQUEST['DescUsuario'];
                 $aRespuestas['Password']=$_REQUEST['Password'];
+                $aRespuestas['ConfirmarPassword']=$_REQUEST['ConfirmarPassword'];
                 try{
                     //Se conecta a la base de datos.
                     $miDB=new PDO(DSN,USERNAME,PASSWORD);
                     $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    //Consulta preparada:Busca un usuario y contraseña coincidentes.
-                    $sql="INSERT INTO T01_Usuario(T01_CodUsuario,T01_Password,T01_DescUsuario,T01_NumConexiones) VALUES(".$aRespuestas['CodUsuario'].",".$aRespuestas['Password'].",".$aRespuestas['DescUsuario'].",1)";
-                    $consulta=$miDB->prepare($sql);
-                    $consulta->execute();
+                    //Consulta preparada:Inserta un usuario con los datos introducidos en el formulario.
+                    $Password=$aRespuestas['CodUsuario'].$aRespuestas['Password'];
+                    $sql="INSERT INTO T01_Usuario(T01_CodUsuario,T01_Password,T01_DescUsuario,T01_NumConexiones,T01_FechaHoraUltimaConexion,T01_Perfil) VALUES (
+                        '{$aRespuestas['CodUsuario']}',
+                        SHA2({$Password},256),
+                        '{$aRespuestas['DescUsuario']}',
+                        1,
+                        NOW(),
+                        'usuario'
+                    )";
+                    $resultadoConsulta=$miDB->prepare($sql);
+                    $resultadoConsulta->execute();
+                    $oFechaActual=new DateTime();
+                    //Se inicia la session y guardamos datos de sesión.
+                    session_start();
+                    $_SESSION['usuarioDAW210AppLoginLogoffTema5']=[
+                        'CodUsuario'                      => $aRespuestas['CodUsuario'],
+                        'Password'                        => $aRespuestas['Password'],
+                        'DescUsuario'                     => $aRespuestas['DescUsuario'],
+                        'FechaHoraUltimaConexionAnterior' => null,
+                        'FechaHoraUltimaConexion'         => $oFechaActual->format('d-m-Y H:i:s'),
+                        'NumConexiones'                   => 1,
+                        'Perfil'                          => 'usuario'
+                    ];
+                    header('Location: inicioPrivado.php');
+                    exit;
                 }
                 catch (PDOException $miExceptionPDO) {
                     //Temporalmente ponemos estos errores para que se muestren en pantalla.
@@ -137,7 +160,7 @@
                             <label for="desc">Nombre y apellidos:</label>
                         </td>
                         <td>
-                            <input type="text" name="DescUsuario" class="texto obligatorio" id="DescUsuario" value="<?php echo(isset($_REQUEST["DescUsuario"])&&empty($aErrores["DesUsuario"]))?$_REQUEST["DescUsuario"]:''?>">
+                            <input type="text" name="DescUsuario" class="texto obligatorio" id="DescUsuario" value="<?php echo(isset($_REQUEST["DescUsuario"])&&empty($aErrores["DescUsuario"]))?$_REQUEST["DescUsuario"]:''?>">
                         </td>
                         <td class="span">
                             <span><?php echo $aErrores['Password']?></span>

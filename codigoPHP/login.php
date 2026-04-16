@@ -67,7 +67,6 @@
                     if($usuarioBD){
                         date_default_timezone_set('Europe/Madrid');
                         setlocale(LC_TIME, 'es_ES.utf8','es_ES','spanish');
-                        
                         $oFechaActual=new DateTime();
                         //Sino se inicia la session y guardamos datos de sesión.
                         session_start();
