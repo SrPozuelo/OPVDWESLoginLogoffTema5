@@ -88,17 +88,17 @@
                     $miDB=new PDO(DSN,USERNAME,PASSWORD);
                     $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     //Consulta preparada:Inserta un usuario con los datos introducidos en el formulario.
-                    $Password=$aRespuestas['CodUsuario'].$aRespuestas['Password'];
-                    $sql="INSERT INTO T01_Usuario(T01_CodUsuario,T01_Password,T01_DescUsuario,T01_NumConexiones,T01_FechaHoraUltimaConexion,T01_Perfil) VALUES (
-                        '{$aRespuestas['CodUsuario']}',
-                        SHA2({$Password},256),
-                        '{$aRespuestas['DescUsuario']}',
-                        1,
-                        NOW(),
-                        'usuario'
-                    )";
+                    $sql=<<<SQL
+                        INSERT INTO T01_Usuario(T01_CodUsuario,T01_Password,T01_DescUsuario,T01_NumConexiones,T01_FechaHoraUltimaConexion,T01_Perfil)
+                        VALUES(:CodUsuario,SHA2(:Password,256),:DescUsuario,1,NOW(),'usuario')
+                    SQL;
+                    $Parametros=[
+                        ':CodUsuario'=>$aRespuestas['CodUsuario'],
+                        ':Password'=>$aRespuestas['CodUsuario'].$aRespuestas['Password'],
+                        ':DescUsuario'=>$aRespuestas['DescUsuario'],
+                    ];
                     $resultadoConsulta=$miDB->prepare($sql);
-                    $resultadoConsulta->execute();
+                    $resultadoConsulta->execute($Parametros);
                     $oFechaActual=new DateTime();
                     //Se inicia la session y guardamos datos de sesión.
                     session_start();

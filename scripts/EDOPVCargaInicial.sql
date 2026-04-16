@@ -19,7 +19,7 @@ INSERT INTO T01_Usuario (T01_CodUsuario,T01_Password,T01_DescUsuario)VALUES
     ('alvaroG',SHA2('alvaroGpaso',256),'Álvaro García'),
     ('gonzalo',SHA2('gonzalopaso',256),'Gonzalo Junquera'),
     ('cristian',SHA2('cristianpaso',256),'Cristian Mateos'),
-    ('alberto',SHA2('albertopaso',256),'Alberto Méndez'),
+    ('albertoM',SHA2('albertoMpaso',256),'Alberto Méndez'),
     ('enrique',SHA2('enriquepaso',256),'Enrique Nieto'),
     ('james',SHA2('jamespaso',256),'James Edward Nuñez'),
     ('oscar',SHA2('oscarpaso',256),'Óscar Pozuelo'),
