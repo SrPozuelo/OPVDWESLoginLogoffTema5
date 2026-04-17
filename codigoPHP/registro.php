@@ -3,6 +3,112 @@
         header('Location: ../indexLoginLogoffTema5.php');
         exit;
     }
+    require_once '../conf/ConfDBPDO.php';
+    require_once "../core/libreriaValidacion.php";
+    $textoBotonVolver='VOLVER';
+    $aErrores=[
+        "CodUsuario"       =>'',
+        "DescUsuario"      =>'',
+        "Password"         =>'',
+        "ConfirmarPassword"=>''
+    ];
+    $aRespuestas=[
+        "CodUsuario"       =>'',
+        "DescUsuario"      =>'',
+        "Password"         =>'',
+        "ConfirmarPassword"=>''
+    ];
+    $entradaOK=true;
+    if(isset($_REQUEST["Crear"])){
+        //Código que se ejecuta cuando se envía el formulario.
+        //Se valida los datos del formulario.
+        $aErrores['CodUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['CodUsuario'],10,4,1);
+        if(empty($aErrores['CodUsuario'])){
+            try{
+                //Se conecta a la base de datos.
+                $miDB=new PDO(DSN,USERNAME,PASSWORD);
+                $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                //Consulta preparada:Busca si el código de usuario ya existe en la base de datos.
+                $sql="SELECT * FROM T01_Usuario WHERE T01_CodUsuario ='{$_REQUEST['CodUsuario']}'";
+                $resultadoConsulta=$miDB->prepare($sql);
+                $resultadoConsulta->execute();
+                if($resultadoConsulta->rowCount()>0){
+                    $aErrores['CodUsuario']="Ya existe un usuario con este código.";
+                } 
+            }
+            catch(PDOException $miExceptionPDO) {
+                //Temporalmente ponemos estos errores para que se muestren en pantalla.
+                echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
+                echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
+            }
+            finally {
+                unset($miDB);
+            }
+        }
+        $aErrores['DescUsuario']=validacionFormularios::comprobarAlfaNumerico($_REQUEST['DescUsuario'],255,4,1);
+        $aErrores['Password']=validacionFormularios::validarPassword($_REQUEST['Password'],64,4,2,1);
+        $aErrores['ConfirmarPassword']=validacionFormularios::validarPassword($_REQUEST['ConfirmarPassword'],64,4,2,1);
+        if($_REQUEST['Password']!==$_REQUEST['ConfirmarPassword'] AND empty($aErrores['Password'])){
+            $aErrores['ConfirmarPassword']='Debes introducir la misma contraseña.';
+        }
+        foreach($aErrores as $campo => $valor){
+            if(!empty($valor)){
+                //Se comprueba si el valor es válido.
+                $entradaOK=false;
+            }
+        }
+    }
+    else{
+        //Código que se ejecuta antes de rellenar el formulario.
+        $entradaOK=false;
+    }
+    //Se comprueba el que el nombre del usuario y la contraseña sean introducidos correctamente.
+    if($entradaOK){
+        //Se Carga la variable $aRespuestas y tratamiento de datos OK.
+        $aRespuestas['CodUsuario']=$_REQUEST['CodUsuario'];
+        $aRespuestas['DescUsuario']=$_REQUEST['DescUsuario'];
+        $aRespuestas['Password']=$_REQUEST['Password'];
+        $aRespuestas['ConfirmarPassword']=$_REQUEST['ConfirmarPassword'];
+        try{
+            //Se conecta a la base de datos.
+            $miDB=new PDO(DSN,USERNAME,PASSWORD);
+            $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //Consulta preparada:Inserta un usuario con los datos introducidos en el formulario.
+            $sql=<<<SQL
+                INSERT INTO T01_Usuario(T01_CodUsuario,T01_Password,T01_DescUsuario,T01_NumConexiones,T01_FechaHoraUltimaConexion,T01_Perfil)
+                VALUES(:CodUsuario,SHA2(:Password,256),:DescUsuario,1,NOW(),'usuario')
+            SQL;
+            $Parametros=[
+                ':CodUsuario'=>$aRespuestas['CodUsuario'],
+                ':Password'=>$aRespuestas['CodUsuario'].$aRespuestas['Password'],
+                ':DescUsuario'=>$aRespuestas['DescUsuario'],
+            ];
+            $resultadoConsulta=$miDB->prepare($sql);
+            $resultadoConsulta->execute($Parametros);
+            $oFechaActual=new DateTime();
+            //Se inicia la session y guardamos datos de sesión.
+            session_start();
+            $_SESSION['usuarioDAW210AppLoginLogoffTema5']=[
+                'CodUsuario'                      => $aRespuestas['CodUsuario'],
+                'Password'                        => hash('sha256',$aRespuestas['CodUsuario'].$aRespuestas['Password']),
+                'DescUsuario'                     => $aRespuestas['DescUsuario'],
+                'FechaHoraUltimaConexionAnterior' => null,
+                'FechaHoraUltimaConexion'         => $oFechaActual->format('d-m-Y H:i:s'),
+                'NumConexiones'                   => 1,
+                'Perfil'                          => 'usuario'
+            ];
+            header('Location: inicioPrivado.php');
+            exit;
+        }
+        catch (PDOException $miExceptionPDO) {
+            //Temporalmente ponemos estos errores para que se muestren en pantalla.
+            echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
+            echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
+        }
+        finally {
+            unset($miDB);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,114 +122,6 @@
         <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/estilosTabla.css"> 
     </head>
     <body>
-        <?php
-            require_once '../conf/ConfDBPDO.php';
-            require_once "../core/libreriaValidacion.php";
-            $textoBotonVolver='VOLVER';
-            $aErrores=[
-                "CodUsuario"       =>'',
-                "DescUsuario"      =>'',
-                "Password"         =>'',
-                "ConfirmarPassword"=>''
-            ];
-            $aRespuestas=[
-                "CodUsuario"       =>'',
-                "DescUsuario"      =>'',
-                "Password"         =>'',
-                "ConfirmarPassword"=>''
-            ];
-            $entradaOK=true;
-            if(isset($_REQUEST["Crear"])){
-                //Código que se ejecuta cuando se envía el formulario.
-                //Se valida los datos del formulario.
-                $aErrores['CodUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['CodUsuario'],10,4,1);
-                if(empty($aErrores['CodUsuario'])){
-                    try{
-                        //Se conecta a la base de datos.
-                        $miDB=new PDO(DSN,USERNAME,PASSWORD);
-                        $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                        //Consulta preparada:Busca si el código de usuario ya existe en la base de datos.
-                        $sql="SELECT * FROM T01_Usuario WHERE T01_CodUsuario ='{$_REQUEST['CodUsuario']}'";
-                        $resultadoConsulta=$miDB->prepare($sql);
-                        $resultadoConsulta->execute();
-                        if($resultadoConsulta->rowCount()>0){
-                            $aErrores['CodUsuario']="Ya existe un usuario con este código.";
-                        } 
-                    }
-                    catch(PDOException $miExceptionPDO) {
-                        //Temporalmente ponemos estos errores para que se muestren en pantalla.
-                        echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
-                        echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
-                    }
-                    finally {
-                        unset($miDB);
-                    }
-                }
-                $aErrores['DescUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['DescUsuario'],255,4,1);
-                $aErrores['Password']=validacionFormularios::validarPassword($_REQUEST['Password'],64,4,2,1);
-                $aErrores['ConfirmarPassword']=validacionFormularios::validarPassword($_REQUEST['ConfirmarPassword'],64,4,2,1);
-                if($_REQUEST['Password']!==$_REQUEST['ConfirmarPassword'] AND empty($aErrores['Password'])){
-                    $aErrores['ConfirmarPassword']='Debes introducir la misma contraseña.';
-                }
-                foreach($aErrores as $campo => $valor){
-                    if(!empty($valor)){
-                        //Se comprueba si el valor es válido.
-                        $entradaOK=false;
-                    }
-                }
-            }
-            else{
-                //Código que se ejecuta antes de rellenar el formulario.
-                $entradaOK=false;
-            }
-            //Se comprueba el que el nombre del usuario y la contraseña sean introducidos correctamente.
-            if($entradaOK){
-                //Se Carga la variable $aRespuestas y tratamiento de datos OK.
-                $aRespuestas['CodUsuario']=$_REQUEST['CodUsuario'];
-                $aRespuestas['DescUsuario']=$_REQUEST['DescUsuario'];
-                $aRespuestas['Password']=$_REQUEST['Password'];
-                $aRespuestas['ConfirmarPassword']=$_REQUEST['ConfirmarPassword'];
-                try{
-                    //Se conecta a la base de datos.
-                    $miDB=new PDO(DSN,USERNAME,PASSWORD);
-                    $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    //Consulta preparada:Inserta un usuario con los datos introducidos en el formulario.
-                    $sql=<<<SQL
-                        INSERT INTO T01_Usuario(T01_CodUsuario,T01_Password,T01_DescUsuario,T01_NumConexiones,T01_FechaHoraUltimaConexion,T01_Perfil)
-                        VALUES(:CodUsuario,SHA2(:Password,256),:DescUsuario,1,NOW(),'usuario')
-                    SQL;
-                    $Parametros=[
-                        ':CodUsuario'=>$aRespuestas['CodUsuario'],
-                        ':Password'=>$aRespuestas['CodUsuario'].$aRespuestas['Password'],
-                        ':DescUsuario'=>$aRespuestas['DescUsuario'],
-                    ];
-                    $resultadoConsulta=$miDB->prepare($sql);
-                    $resultadoConsulta->execute($Parametros);
-                    $oFechaActual=new DateTime();
-                    //Se inicia la session y guardamos datos de sesión.
-                    session_start();
-                    $_SESSION['usuarioDAW210AppLoginLogoffTema5']=[
-                        'CodUsuario'                      => $aRespuestas['CodUsuario'],
-                        'Password'                        => $aRespuestas['Password'],
-                        'DescUsuario'                     => $aRespuestas['DescUsuario'],
-                        'FechaHoraUltimaConexionAnterior' => null,
-                        'FechaHoraUltimaConexion'         => $oFechaActual->format('d-m-Y H:i:s'),
-                        'NumConexiones'                   => 1,
-                        'Perfil'                          => 'usuario'
-                    ];
-                    header('Location: inicioPrivado.php');
-                    exit;
-                }
-                catch (PDOException $miExceptionPDO) {
-                    //Temporalmente ponemos estos errores para que se muestren en pantalla.
-                    echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
-                    echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
-                }
-                finally {
-                    unset($miDB);
-                }
-            }
-        ?>
         <header class="cabecera-principal">
             <div class="contenido-cabecera">
                 <div class="identidad">
@@ -163,7 +161,7 @@
                             <input type="text" name="DescUsuario" class="texto obligatorio" id="DescUsuario" value="<?php echo(isset($_REQUEST["DescUsuario"])&&empty($aErrores["DescUsuario"]))?$_REQUEST["DescUsuario"]:''?>">
                         </td>
                         <td class="span">
-                            <span><?php echo $aErrores['Password']?></span>
+                            <span><?php echo $aErrores['DescUsuario']?></span>
                         </td>
                     </tr>
                     <tr>

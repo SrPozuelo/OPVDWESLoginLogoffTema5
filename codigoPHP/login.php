@@ -7,6 +7,94 @@
         header('Location: registro.php');
         exit;
     }
+    require_once '../conf/ConfDBPDO.php';
+    require_once "../core/libreriaValidacion.php";
+    $textoBotonVolver='VOLVER';
+    $aErrores=[
+        "CodUsuario"=>'',
+        "Password"  =>''
+    ];
+    $aRespuestas=[
+        "CodUsuario"=>'',
+        "Password"  =>''
+    ];
+    $entradaOK=true;
+    if(isset($_REQUEST["Enviar"])){
+        //Código que se ejecuta cuando se envía el formulario.
+        //Se valida los datos del formulario.
+        $aErrores['CodUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['CodUsuario'],10,0,1);
+        $aErrores['Password'] =validacionFormularios::validarPassword($_REQUEST['Password'],64,4,2,1);
+        foreach($aErrores as $campo => $valor){
+            if(!empty($valor)){
+                //Se comprueba si el valor es válido.
+                $entradaOK=false;
+            } 
+        }
+    }
+    else{
+        //Código que se ejecuta antes de rellenar el formulario.
+        $entradaOK=false;
+    }
+    //Se comprueba el que el nombre del usuario y la contraseña sean introducidos correctamente.
+    if($entradaOK){
+        //Se Carga la variable $aRespuestas y tratamiento de datos OK.
+        try {
+            //Se conecta a la base de datos.
+            $miDB=new PDO(DSN,USERNAME,PASSWORD);
+            //Consulta preparada:Busca un usuario y contraseña coincidentes.
+            $sql="SELECT * FROM T01_Usuario WHERE T01_CodUsuario = :CodUsuario AND T01_Password = sha2(:Password,256)";
+            $consulta = $miDB->prepare($sql);
+            $consulta->execute([
+                ':CodUsuario' => $_REQUEST['CodUsuario'],
+                ':Password'   => $_REQUEST['CodUsuario'].$_REQUEST['Password']
+            ]);
+            //Si encuentra una fila, las credenciales son correctas.
+            $usuarioBD=$consulta->fetchObject();
+            if($usuarioBD){
+                date_default_timezone_set('Europe/Madrid');
+                setlocale(LC_TIME, 'es_ES.utf8','es_ES','spanish');
+                $oFechaActual=new DateTime();
+                //Se actualiza la fecha de la última session y el contador de conexiones.
+                $actualizacion=<<<SQL
+                    UPDATE T01_Usuario SET
+                    T01_FechaHoraUltimaConexion = now(),
+                    T01_NumConexiones = T01_NumConexiones + 1
+                    WHERE T01_CodUsuario = :CodUsuario
+                SQL;
+                //Sino se inicia la session y guardamos datos de sesión.
+                session_start();
+                $_SESSION['usuarioDAW210AppLoginLogoffTema5']=[
+                    'CodUsuario'                      => $usuarioBD->T01_CodUsuario,
+                    'Password'                        => $usuarioBD->T01_Password,
+                    'DescUsuario'                     => $usuarioBD->T01_DescUsuario,
+                    'FechaHoraUltimaConexionAnterior' => $usuarioBD->T01_FechaHoraUltimaConexion,
+                    'FechaHoraUltimaConexion'         => $oFechaActual->format('d-m-Y H:i:s'),
+                    'NumConexiones'                   => $usuarioBD->T01_NumConexiones+1,
+                    'Perfil'                          => $usuarioBD->T01_Perfil
+                ];
+                $consulta2 = $miDB->prepare($actualizacion);
+                $consulta2->execute([':CodUsuario' => $_REQUEST['CodUsuario']]);
+                //Se Avanza a la página de inicio privado.
+                header('Location: inicioPrivado.php');
+                exit;
+            }
+            else{
+                //Si el usuario NO es válido se vuelve a cargar el login con los errores.
+                if(empty($aErrores['CodUsuario']) and empty($aErrores['Password'])){
+                    $aErrores['CodUsuario']="El nombre de usuario o la contrasena estan mal introducidos.";
+                    $aErrores['Password']="El nombre de usuario o la contrasena estan mal introducidos.";
+                }
+            }
+        }
+        catch (PDOException $miExceptionPDO) {
+            //Temporalmente ponemos estos errores para que se muestren en pantalla.
+            echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
+            echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
+        }
+        finally {
+            unset($miDB);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,96 +108,6 @@
         <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/estilosTabla.css"> 
     </head>
     <body>
-        <?php
-            require_once '../conf/ConfDBPDO.php';
-            require_once "../core/libreriaValidacion.php";
-            $textoBotonVolver='VOLVER';
-            $aErrores=[
-                "CodUsuario"=>'',
-                "Password"  =>''
-            ];
-            $aRespuestas=[
-                "CodUsuario"=>'',
-                "Password"  =>''
-            ];
-            $entradaOK=true;
-            if(isset($_REQUEST["Enviar"])){
-                //Código que se ejecuta cuando se envía el formulario.
-                //Se valida los datos del formulario.
-                $aErrores['CodUsuario']=validacionFormularios::comprobarAlfabetico($_REQUEST['CodUsuario'],10,0,1);
-                $aErrores['Password'] =validacionFormularios::validarPassword($_REQUEST['Password'],64,4,2,1);
-                foreach($aErrores as $campo => $valor){
-                    if(!empty($valor)){
-                        //Se comprueba si el valor es válido.
-                        $entradaOK=false;
-                    } 
-                }
-            }
-            else{
-                //Código que se ejecuta antes de rellenar el formulario.
-                $entradaOK=false;
-            }
-            //Se comprueba el que el nombre del usuario y la contraseña sean introducidos correctamente.
-            if($entradaOK){
-                //Se Carga la variable $aRespuestas y tratamiento de datos OK.
-                try {
-                    //Se conecta a la base de datos.
-                    $miDB=new PDO(DSN,USERNAME,PASSWORD);
-                    //Consulta preparada:Busca un usuario y contraseña coincidentes.
-                    $sql="SELECT * FROM T01_Usuario WHERE T01_CodUsuario = :CodUsuario AND T01_Password = sha2(:Password,256)";
-                    $consulta = $miDB->prepare($sql);
-                    $consulta->execute([
-                        ':CodUsuario' => $_REQUEST['CodUsuario'],
-                        ':Password'   => $_REQUEST['CodUsuario'].$_REQUEST['Password']
-                    ]);
-                    //Si encuentra una fila, las credenciales son correctas.
-                    $usuarioBD=$consulta->fetchObject();
-                    if($usuarioBD){
-                        date_default_timezone_set('Europe/Madrid');
-                        setlocale(LC_TIME, 'es_ES.utf8','es_ES','spanish');
-                        $oFechaActual=new DateTime();
-                        //Sino se inicia la session y guardamos datos de sesión.
-                        session_start();
-                        $_SESSION['usuarioDAW210AppLoginLogoffTema5']=[
-                            'CodUsuario'                      => $usuarioBD->T01_CodUsuario,
-                            'Password'                        => $usuarioBD->T01_Password,
-                            'DescUsuario'                     => $usuarioBD->T01_DescUsuario,
-                            'FechaHoraUltimaConexionAnterior' => $usuarioBD->T01_FechaHoraUltimaConexion,
-                            'FechaHoraUltimaConexion'         => $oFechaActual->format('d-m-Y H:i:s'),
-                            'NumConexiones'                   => $usuarioBD->T01_NumConexiones+1,
-                            'Perfil'                          => $usuarioBD->T01_Perfil
-                        ];
-                        //Se actualiza la fecha de la última session y el contador de conexiones.
-                        $actualizacion=<<<SQL
-                            UPDATE T01_Usuario SET
-                            T01_FechaHoraUltimaConexion = now(),
-                            T01_NumConexiones = T01_NumConexiones + 1
-                            WHERE T01_CodUsuario = :CodUsuario
-                        SQL;
-                        $consulta2 = $miDB->prepare($actualizacion);
-                        $consulta2->execute([':CodUsuario' => $_REQUEST['CodUsuario']]);
-                        //Se Avanza a la página de inicio privado.
-                        header('Location: inicioPrivado.php');
-                        exit;
-                    }
-                    else{
-                        //Si el usuario NO es válido se vuelve a cargar el login con los errores.
-                        if(empty($aErrores['CodUsuario']) and empty($aErrores['Password'])){
-                            $aErrores['CodUsuario']="El nombre de usuario o la contrasena estan mal introducidos.";
-                            $aErrores['Password']="El nombre de usuario o la contrasena estan mal introducidos.";
-                        }
-                    }
-                }
-                catch (PDOException $miExceptionPDO) {
-                    //Temporalmente ponemos estos errores para que se muestren en pantalla.
-                    echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
-                    echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
-                }
-                finally {
-                    unset($miDB);
-                }
-            }
-        ?>
         <header class="cabecera-principal">
             <div class="contenido-cabecera">
                 <div class="identidad">

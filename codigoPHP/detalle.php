@@ -87,7 +87,7 @@
                         if(!empty($_COOKIE)){
                             foreach($_COOKIE AS $sVariable => $sResultado){
                                 echo("<tr>");
-                                    echo('<td>$_SERVER['.$sVariable.']</td>');
+                                    echo('<td>$_COOKIE['.$sVariable.']</td>');
                                     echo('<td>'.$sResultado.'</td>');
                                 echo("</tr>");
                             }
@@ -139,7 +139,7 @@
                         if(!empty($_REQUEST)){
                             foreach($_REQUEST AS $sVariable => $sResultado){
                                 echo("<tr>");
-                                    echo('<td>$_SERVER['.$sVariable.']</td>');
+                                    echo('<td>$_REQUEST['.$sVariable.']</td>');
                                     echo('<td>'.$sResultado.'</td>');
                                 echo("</tr>");
                             }
@@ -165,7 +165,7 @@
                         if(!empty($_GET)){
                             foreach($_GET AS $sVariable => $sResultado){
                                 echo("<tr>");
-                                    echo('<td>$_SERVER['.$sVariable.']</td>');
+                                    echo('<td>$_GET['.$sVariable.']</td>');
                                     echo('<td>'.$sResultado.'</td>');
                                 echo("</tr>");
                             }
@@ -191,7 +191,7 @@
                         if(!empty($_POST)){
                             foreach($_POST AS $sVariable => $sResultado){
                                 echo("<tr>");
-                                    echo('<td>$_SERVER['.$sVariable.']</td>');
+                                    echo('<td>$_POST['.$sVariable.']</td>');
                                     echo('<td>'.$sResultado.'</td>');
                                 echo("</tr>");
                             }
@@ -217,7 +217,7 @@
                         if(!empty($_FILES)){
                             foreach($_FILES AS $sVariable => $sResultado){
                                 echo("<tr>");
-                                    echo('<td>$_SERVER['.$sVariable.']</td>');
+                                    echo('<td>$_FILES['.$sVariable.']</td>');
                                     echo('<td>'.$sResultado.'</td>');
                                 echo("</tr>");
                             }
@@ -243,7 +243,7 @@
                         if(!empty($_ENV)){
                             foreach($_ENV AS $sVariable => $sResultado){
                                 echo("<tr>");
-                                    echo('<td>$_SERVER['.$sVariable.']</td>');
+                                    echo('<td>$_ENV['.$sVariable.']</td>');
                                     echo('<td>'.$sResultado.'</td>');
                                 echo("</tr>");
                             }
