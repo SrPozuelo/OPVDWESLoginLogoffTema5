@@ -1,8 +1,15 @@
 <?php
     $textoBotonIniciarSesion = 'INICIAR SESIÓN';
-    if (isset($_REQUEST['iniciarSesion'])) {
+    if(isset($_REQUEST['iniciarSesion'])) {
         header('Location: codigoPHP/login.php');
         exit;
+    }
+    if(!isset($_COOKIE["Idioma"])){
+        setcookie("Idioma","es",(time()+604800));
+    }
+    if(isset($_REQUEST["Idioma"])){
+        setcookie("Idioma",$_REQUEST["Idioma"],(time()+604800));
+        header('Location: indexLoginLogoffTema5.php');
     }
 ?>
 <!DOCTYPE html>
@@ -29,7 +36,9 @@
                     Login Logoff Tema 5
                 </div>
                 <form action="" method="post" id="FormularioSesion">
-                    <button name="iniciarSesion" id="Sesion"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
+                    <button type="submit" name="Idioma"><img src="webroot/images/España.png" alt="España" width="20"></button>
+                    <button type="submit" name="Idioma"><img src="webroot/images/Portugal.png" alt="portugal" width="20"></button>
+                    <button type="submit" name="iniciarSesion" id="Sesion"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
                 </form>
             </div>
         </header>
