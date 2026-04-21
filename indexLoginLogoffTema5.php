@@ -36,8 +36,8 @@
                     Login Logoff Tema 5
                 </div>
                 <form action="" method="post" id="FormularioSesion">
-                    <button type="submit" name="Idioma"><img src="webroot/images/España.png" alt="España" width="20"></button>
-                    <button type="submit" name="Idioma"><img src="webroot/images/Portugal.png" alt="portugal" width="20"></button>
+                    <button type="submit" name="Idioma"><img src="webroot/images/España.png" alt="España"></button>
+                    <button type="submit" name="Idioma"><img src="webroot/images/Portugal.png" alt="portugal"></button>
                     <button type="submit" name="iniciarSesion" id="Sesion"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
                 </form>
             </div>

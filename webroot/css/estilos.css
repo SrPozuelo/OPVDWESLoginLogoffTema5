@@ -21,8 +21,10 @@ body {
     }
     & #FormularioSesion{
         position:absolute;
+        width:12.5dvw;
         top:1.2dvh;
-        left:90%;
+        left:87%;
+        border:1px solid black;
         & #Sesion{
             width:150px;
             height:4dvh;
@@ -34,6 +36,12 @@ body {
         & #Sesion:hover{
            cursor:pointer;
            transform:scale(1.005);
+        }
+        & button{
+            height:100%;
+            & img{
+                height:100%;
+            }
         }
     }
     & #Boton{
