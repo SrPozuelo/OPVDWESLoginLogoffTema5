@@ -20,11 +20,12 @@ body {
         font-weight:900;
     }
     & #FormularioSesion{
+        display:flex;
         position:absolute;
         width:12.5dvw;
         top:1.2dvh;
         left:87%;
-        border:1px solid black;
+        justify-content:space-between;
         & #Sesion{
             width:150px;
             height:4dvh;
@@ -38,10 +39,14 @@ body {
            transform:scale(1.005);
         }
         & button{
-            height:100%;
+            background-color:transparent;
+            border:0;
             & img{
                 height:100%;
             }
+        }
+        & button:hover{
+            cursor:pointer;
         }
     }
     & #Boton{
