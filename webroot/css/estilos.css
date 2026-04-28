@@ -15,6 +15,43 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x:hidden;
+    & .rojo{
+        color:red;
+        font-weight:900;
+    }
+    & #FormularioSesion{
+        position:absolute;
+        width:12.5dvw;
+        top:1.2dvh;
+        left:87%;
+        border:1px solid black;
+        & #Sesion{
+            width:150px;
+            height:4dvh;
+            background-color:blue;
+            color:white;
+            border:1px solid black;
+            border-radius:10px;
+        }
+        & #Sesion:hover{
+           cursor:pointer;
+           transform:scale(1.005);
+        }
+        & button{
+            height:100%;
+            & img{
+                height:100%;
+            }
+        }
+    }
+    & #Boton{
+        width:150px;
+        height:4dvh;
+        background-color:blue;
+        color:white;
+        border:1px solid black;
+        border-radius:10px;
+    }
     & #contenedorMostrar{
         & #titulo{
             display:grid;
@@ -57,13 +94,30 @@ body {
         }
     }
     & #contenedor{
+        display:flex;
+        flex-direction:column;
+        margin-top:15dvh;
+        & #Detalles{
+            position:absolute;
+            top:42dvh;
+            left:50%;
+            transform:translate(0%,-50%);
+        }
         & #titulo{
             display:grid;
+            position:absolute;
             width:100dvw;
             height:5vh;
+            top:10dvh;
             place-content:center;
             font-weight:bolder;
-            font-size:1.5rem;
+            font-size:3rem;
+        }
+        & #Arbol{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
         }
         & h3{
             height:3dvh;
@@ -105,8 +159,8 @@ body {
             width:80dvw;
             border-collapse:collapse;
             border:1px solid black;
-            margin-left:10dvw;
             margin-bottom:5dvh;
+            align-self:center;
             & thead{
                 background-color:#777BB4;
                 & tr th{
@@ -114,7 +168,7 @@ body {
                     border:1px solid black;
                     padding-top:1dvh;
                     padding-bottom:1dvh;
-                    font-size:1.5rem;
+                    font-size:1.2rem;
                 }
             }
             & tbody{
@@ -123,7 +177,7 @@ body {
                     padding-left:6dvw;
                     padding-top:1dvh;
                     padding-bottom:1dvh;
-                    font-size:1.5rem;
+                    font-size:1.2rem;
                 }
                 & .centrado{
                     text-align:center;
@@ -156,11 +210,15 @@ body {
         }
         & form{
             display:grid;
+            position:absolute;
             /*width:80dvw;
             height:20dvw;
             margin-top:5dvw;
             margin-left:10dvw;
             margin-bottom:10dvh;*/
+            top:30%;
+            left:50%;
+            transform:translate(-50%);
             place-content:center;
             & .sinErrores{
                 width:30dvw;
@@ -209,6 +267,15 @@ body {
                         & input{
                             font-size:1.2rem;
                         }
+                        & p{
+                            position:absolute;
+                            height:50%;
+                            left:-25%;
+                            transform:translate(0%,-50%);
+                            line-height:100%;
+                            font-size:1.3rem;
+                            font-weight:900;
+                        }
                         & .texto{
                             width:100%;
                             height:67%;
@@ -220,17 +287,28 @@ body {
                             border-radius:10px;
                             text-align:center;
                         }
-                        & #Enviar{
+                        & .BotonTabla{
                             position:absolute;
                             width:25%;
                             height:50%;
                             background-color:var(--color-principal);
                             color:white;
+                            border-radius:10px;
+                        }
+                        & #Enviar, & #Crear{
                             top:50%;
                             left:50%;
-                            border-radius:10px;
-                            transform:translate(-50%,-50%);
-                            
+                            transform:translate(10%,-50%);
+                        }
+                        & #Volver{
+                            top:50%;
+                            left:50%;
+                            transform:translate(-110%,-50%);
+                        }
+                        & #Registrarse{
+                            top:50%;
+                            left:50%;
+                            transform:translate(0%,-50%);
                         }
                     }
                     & #Env, & .span{

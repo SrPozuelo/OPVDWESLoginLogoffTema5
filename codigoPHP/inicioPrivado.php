@@ -1,15 +1,14 @@
 <?php
-    $textoBotonIniciarSesion = 'INICIAR SESIÓN';
-    if(isset($_REQUEST['iniciarSesion'])) {
-        header('Location: codigoPHP/login.php');
+    session_start();
+    $textoBotonCerrarSesion = 'CERRAR SESIÓN';
+    if (isset($_REQUEST['cerrarSesion'])) {
+        header('Location: ../indexLoginLogoffTema5.php');
+        session_destroy();
         exit;
     }
-    if(!isset($_COOKIE["Idioma"])){
-        setcookie("Idioma","es",(time()+604800));
-    }
-    if(isset($_REQUEST["Idioma"])){
-        setcookie("Idioma",$_REQUEST["Idioma"],(time()+604800));
-        header('Location: indexLoginLogoffTema5.php');
+    if(isset($_REQUEST['Detalles'])){
+        header('Location: detalle.php');
+        exit;
     }
 ?>
 <!DOCTYPE html>
@@ -36,15 +35,31 @@
                     Login Logoff Tema 5
                 </div>
                 <form action="" method="post" id="FormularioSesion">
-                    <button type="submit" name="Idioma"><img src="webroot/images/España.png" alt="España"></button>
-                    <button type="submit" name="Idioma"><img src="webroot/images/Portugal.png" alt="portugal"></button>
-                    <button type="submit" name="iniciarSesion" id="Sesion"><span><?php echo $textoBotonIniciarSesion; ?></span></button>
+                    <button name="cerrarSesion" id="Sesion"><span><?php echo $textoBotonCerrarSesion; ?></span></button>
                 </form>
             </div>
         </header>
         <main id="contenedor">  
-            <h2 id="titulo">Login Logoff Tema5</h2>
-            <img src="/OPVDWESLoginLogoffTema5/webroot/images/Arbol.png" alt="Arbol del proyecto Login Logoff Tema5" id="Arbol">
+            <h2 id="titulo">INICIO PRIVADO</h2>
+            <form action="" method="post" id="Detalles">
+                <button name="Detalles" id="Boton"><span>DETALLES</span></button>
+            </form>
+            <?php
+                $aUsuarioActual=$_SESSION['usuarioDAW210AppLoginLogoffTema5'];
+                $oFechaHoraUltimaConexionAnterior=new datetime($aUsuarioActual['FechaHoraUltimaConexionAnterior']);
+                //Se muetra el mensaje de bienvenida.
+                echo("<h3>Bienvenido ".$aUsuarioActual['DescUsuario'].".</h3>");
+                if($aUsuarioActual['NumConexiones']==1){
+                    //Esto se muestra si es la primera vez que el usuario inicia sesión en la aplicación.
+                    echo('<h3>Esta es la primera vez que se conecta.</h3>');
+                }
+                else{
+                    //Esto se muestra si no es la primera vez que el usuario inicia sesión en la aplicación.
+                    setlocale(LC_TIME, 'es_ES.utf8','es_ES','spanish');
+                    echo("<h3>Esta es la ".$aUsuarioActual['NumConexiones']."º vez que se conecta.</h3>");
+                    echo("<h3>Se conecto por ultima vez el ".strftime("%d de %B del %Y a las %H:%M:%S",($oFechaHoraUltimaConexionAnterior)->getTimestamp()).".</h3>");
+                }
+            ?>
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">

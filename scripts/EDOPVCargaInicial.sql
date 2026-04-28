@@ -1,9 +1,9 @@
 /**
  * Autor: Óscar Pozuelo
- * Createdo el 16 de marzo del 2026
+ * Createdo el 07 de abril del 2026
  * Script de carga inicial.
  */
-use DBOPVDWESProyectoTema4;
+use DBOPVDWESLoginLogoffTema5;
 insert into T02_Departamento (T02_CodDepartamento,T02_DescDepartamento,T02_FechaCreacionDepartamento,T02_VolumenDeNegocio,T02_FechaBajaDepartamento) values
     ('INF','Departamento de informatica.',now(),1235.5,null),
     ('AUT','Departamento de automocion.',now(),5235.8,null),
@@ -11,3 +11,19 @@ insert into T02_Departamento (T02_CodDepartamento,T02_DescDepartamento,T02_Fecha
     ('MAT','Departamento de matematicas.',now(),735.2,null),
     ('ING','Departamento de ingles.',now(),235.9,now()
 );
+INSERT INTO T01_Usuario (T01_CodUsuario,T01_Password,T01_DescUsuario)VALUES
+    ('vero',SHA2('veropaso',256),'Véro Grué'),
+    ('heraclio',SHA2('heracliopaso',256),'Heraclio Borbujo'),
+    ('alvaroA',SHA2('alvaroApaso',256),'Álvaro Allen'),
+    ('alejandro',SHA2('alejandropaso',256),'Alejandro De La Huerga'),
+    ('alvaroG',SHA2('alvaroGpaso',256),'Álvaro García'),
+    ('gonzalo',SHA2('gonzalopaso',256),'Gonzalo Junquera'),
+    ('cristian',SHA2('cristianpaso',256),'Cristian Mateos'),
+    ('albertoM',SHA2('albertoMpaso',256),'Alberto Méndez'),
+    ('enrique',SHA2('enriquepaso',256),'Enrique Nieto'),
+    ('james',SHA2('jamespaso',256),'James Edward Nuñez'),
+    ('oscar',SHA2('oscarpaso',256),'Óscar Pozuelo'),
+    ('jesus',SHA2('jesuspaso',256),'Jesús Temprano'),
+    ('amor',SHA2('amorpaso',256),'Amor Rodriguez'),
+    ('albertoB',SHA2('albertoBpaso',256),'Alberto Bahillo')
+;
