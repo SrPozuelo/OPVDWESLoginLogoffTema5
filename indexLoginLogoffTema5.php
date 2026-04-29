@@ -18,10 +18,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tema 5 | Óscar Pozuelo Villamandos</title>
-        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/fonts.css">
-        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/all.min.css">
-        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/estilos.css"> 
-        <link rel="stylesheet" href="/OPVDWESLoginLogoffTema5/webroot/css/estilosTabla.css"> 
+        <link rel="stylesheet" href="./webroot/css/fonts.css">
+        <link rel="stylesheet" href="./webroot/css/all.min.css">
+        <link rel="stylesheet" href="./webroot/css/estilos.css"> 
+        <link rel="stylesheet" href="./webroot/css/estilosTabla.css"> 
     </head>
     <body>
         <header class="cabecera-principal">
@@ -44,7 +44,7 @@
         </header>
         <main id="contenedor">  
             <h2 id="titulo">Login Logoff Tema5</h2>
-            <img src="/OPVDWESLoginLogoffTema5/webroot/images/Arbol.png" alt="Arbol del proyecto Login Logoff Tema5" id="Arbol">
+            <img src="./webroot/images/Arbol.png" alt="Arbol del proyecto Login Logoff Tema5" id="Arbol">
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">
